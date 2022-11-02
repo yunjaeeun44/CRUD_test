@@ -5,6 +5,7 @@ const message = {
   BAD_REQUEST: '잘못된 요청',
   INTERNAL_SERVER_ERROR: '서버 내부 오류',
   SUCCESS: '성공',
+  OK: '성공',//
   CREATE_PUSH_SUCCESS: '푸시 알림 생성 성공',
   ALREADY_EXIST_TAG: '이미 존재하는 태그입니다',
   NOT_EXIST_TAG: '존재하지 않는 태그입니다',

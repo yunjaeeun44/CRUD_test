@@ -3,15 +3,13 @@ const app = express();
 
 // import connectDB from './loaders/db';
 import routes from './routes';
-const schedule = require('node-schedule');
-//import generalErrorHandler from './error/generalErrorHandler';
-require('dotenv').config();
+//const schedule = require('node-schedule'); //특정시간에 함수를 실행하는 모듈
+require('dotenv').config(); //환경변수 관리
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true })); //요청의 본문에 있는 데이터를 req.body 객체로 만든다.
+app.use(express.json()); //JSON 문자열이 넘어오는 경우 객체로 만든다.
 
 app.use(routes);
-//app.use(generalErrorHandler);
 
 interface ErrorType {
   message: string;

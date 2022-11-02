@@ -1,5 +1,5 @@
-const util = {
-  success: (status: number, message: string, data?: any) => {
+module.exports = {
+  success: (status, message, data) => {
     return {
       status,
       success: true,
@@ -7,7 +7,7 @@ const util = {
       data,
     };
   },
-  fail: (status: number, message: string, data?: any) => {
+  fail: (status, message) => {
     return {
       status,
       success: false,
@@ -15,5 +15,3 @@ const util = {
     };
   },
 };
-
-export default util;

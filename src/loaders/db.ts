@@ -1,6 +1,8 @@
+//DB에 연결하는 코드
+
 // 필요한 모듈들
 const { Pool, Query } = require('pg'); //postgres
-const dayjs = require('dayjs');
+const dayjs = require('dayjs'); //날짜관련 라이브러리
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -29,6 +31,9 @@ Query.prototype.submit = function () {
 console.log(`[🔥DB] ${process.env.NODE_ENV}`);
 
 // 커넥션 풀을 생성해줍니다.
+// DB와 미리 connection(연결)을 해놓은 객체들을 pool에 저장해두었다가. 
+// 클라이언트 요청이 오면 connection을 빌려주고, 
+// 처리가 끝나면 다시 connection을 반납받아 pool에 저장하는 방식
 const pool = new Pool({
   //   ...dbConfig,
   user: process.env.DB_USER,
@@ -36,7 +41,7 @@ const pool = new Pool({
   database: process.env.DB_DB,
   password: process.env.DB_PASSWORD,
   port: 5432,
-  connectionTimeoutMillis: 60 * 1000,
+  connectionTimeoutMillis: 60 * 1000, //최대 커넥션 대기 시간 설정
   idleTimeoutMillis: 60 * 1000,
 });
 
@@ -44,16 +49,17 @@ const pool = new Pool({
 // 기본적으로 제공되는 pool.connect()와 pool.connect().release() 함수에 디버깅용 메시지를 추가하는 작업입니다.
 const connect = async (req: any) => {
   const now = dayjs();
-  const string =
+  const string = //!!=> 피연산자를 boolean값으로 변환
     !!req && !!req.method
       ? `[${req.method}] ${!!req.user ? `${req.user.id}` : ``} ${req.originalUrl}\n ${!!req.query && `query: ${JSON.stringify(req.query)}`} ${!!req.body && `body: ${JSON.stringify(req.body)}`} ${
           !!req.params && `params ${JSON.stringify(req.params)}`
         }`
       : `request 없음`;
   const callStack = new Error().stack;
-  const client = await pool.connect();
+  const client = await pool.connect(); //pool에서 커넥션 빌림
   const query = client.query;
   const release = client.release;
+  
 
   const releaseChecker = setTimeout(() => {
     // devMode

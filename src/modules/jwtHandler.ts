@@ -1,4 +1,4 @@
-import { JwtPayloadInfo } from '../interfaces/common/JwtPayloadInfo';
+//import { JwtPayloadInfo } from '../interfaces/common/JwtPayloadInfo';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 
