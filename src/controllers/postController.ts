@@ -67,7 +67,7 @@ const getPost= async (req, res) => {
 
 /**
  *  @route PUT /post/:postId
- *  @desc update post
+ *  @desc update post by Id
  *  @access Private
  */
 const updatePost= async (req, res) => {
