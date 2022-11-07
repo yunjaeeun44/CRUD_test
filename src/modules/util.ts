@@ -1,5 +1,5 @@
-module.exports = {
-  success: (status, message, data) => {
+export default  {
+  success: (status: number, message: string, data?: any) => {
     return {
       status,
       success: true,
@@ -7,7 +7,7 @@ module.exports = {
       data,
     };
   },
-  fail: (status, message) => {
+  fail: (status: number, message: string, data?: any) => {
     return {
       status,
       success: false,
