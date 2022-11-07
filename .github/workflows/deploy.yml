@@ -1,0 +1,49 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: deploy
+
+on: #develop 브랜치에 Push하거나 Pull Request했을 때 Workflow를 Triger(실행)
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04 #사용할 가상 환경의 인스턴스를 지정
+
+    strategy:
+      matrix:
+        node-version: [16.15.1] #사용할 node의 버전을 명시
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout source code. #Github의 repository에 올려둔 코드를 CI 서버로 내려받은 후에 특정 브랜치로 전환하는 과정
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }} #명시한 Node를 버전에 맞게 설치하는 과정
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check Npm -v
+        run: npm -v
+
+      - name: create env file #Github에 등록한 환경변수들로 .env 파일을 생성해주는 과정
+        working-directory: ./
+        run: |
+          pwd
+          touch .env
+          echo PORT=${{ secrets.PORT }} >> .env
+          echo DB_USER=${{ secrets.DB_USER }} >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_DB=${{ secrets.DB_DB }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          cat .env
+
+      - name: build server files #yarn 명령어로 필요한 dependency들을 설치한 후에 빌드를 해주는 과정
+        working-directory: ./
+        run: |
+          yarn
+          yarn run build
