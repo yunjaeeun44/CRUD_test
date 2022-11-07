@@ -42,7 +42,7 @@ const updatePost = async (client, key, title, contents, category) => {
     const { rows } = await client.query(
         `
         UPDATE "test_table"
-        SET title = $2, content = $3, category = $4
+        SET title = $2, contents = $3, category = $4
         WHERE id = $1
         RETURNING *
         `,
