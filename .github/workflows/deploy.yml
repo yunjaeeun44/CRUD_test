@@ -46,4 +46,4 @@ jobs:
         working-directory: ./
         run: |
           yarn
-          yarn run dev
+          yarn run build
