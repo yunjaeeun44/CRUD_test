@@ -1,7 +1,8 @@
 import express from 'express';
 import statusCode from '../modules/statusCode'; 
 import responseMessage from '../modules/responseMessage';
-const util = require('../modules/util');
+//const util = require('../modules/util');
+import util from '../modules/util';
 const db = require('../loaders/db');
 const Post = require('../services/post');
 
